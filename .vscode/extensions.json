@@ -1,0 +1,14 @@
+{
+  "recommendations": [
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+    "ritwickdey.liveserver",
+    "ms-rest-client.rest-client",
+    "eamodio.gitlens",
+    "ms-vscode.theme-kimbie-dark",
+    "pkief.material-icon-theme",
+    "formulahendry.auto-rename-tag",
+    "formulahendry.auto-close-tag",
+    "bradlc.vscode-tailwindcss"
+  ]
+}

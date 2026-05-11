@@ -1,0 +1,66 @@
+{
+  // Editor
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "editor.indentSize": 2,
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "editor.trimAutoWhitespace": true,
+  "files.insertFinalNewline": true,
+  "files.trimTrailingWhitespace": true,
+
+  // Languages
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "editor.wordWrap": "on"
+  },
+
+  // Search
+  "search.exclude": {
+    "**/node_modules": true,
+    ".git": true,
+    ".vscode": true,
+    "dist": true,
+    "build": true
+  },
+  "files.exclude": {
+    "**/.DS_Store": true,
+    "**/node_modules": true,
+    "**/.env": true
+  },
+
+  // Extensions
+  "extensions.ignoreRecommendations": false,
+
+  // Terminal
+  "terminal.integrated.defaultProfile.windows": "PowerShell",
+  "terminal.integrated.profiles.windows": {
+    "PowerShell": {
+      "source": "PowerShell",
+      "icon": "terminal-powershell"
+    },
+    "Command Prompt": {
+      "path": [
+        "${env:windir}\\System32\\cmd.exe"
+      ],
+      "icon": "terminal-cmd"
+    }
+  }
+}
