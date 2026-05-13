@@ -109,12 +109,9 @@ http://localhost:8000
 
 ## 📺 Vídeo de Demonstração
 
-<video width="100%" height="300" controls style="border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-  <source src="./assets/demo.mp4" type="video/mp4">
-  Seu navegador não suporta vídeo HTML5.
-</video>
+[![Asista a Demonstração](https://img.shields.io/badge/▶️%20Asista%20a%20Demonstração-Vídeo-FF0000?style=for-the-badge)](./assets/demo.mp4)
 
-**[Clique para Download do Vídeo](./assets/demo.mp4)** 
+Você também pode [baixar o vídeo diretamente](./assets/demo.mp4) 
 
 ---
 
