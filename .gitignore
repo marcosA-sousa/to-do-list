@@ -30,3 +30,7 @@ Thumbs.db
 tmp/
 temp/
 *.tmp
+
+# Database
+backend/data/*.db
+
