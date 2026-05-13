@@ -5,7 +5,6 @@ import { fileURLToPath } from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const dbPath = path.join(__dirname, '../data/tasks.db');
 
-// Initialize database connection
 export const db = new sqlite3.Database(dbPath, (err) => {
   if (err) {
     console.error('Error opening database:', err.message);
@@ -14,10 +13,8 @@ export const db = new sqlite3.Database(dbPath, (err) => {
   }
 });
 
-// Enable foreign keys
 db.run('PRAGMA foreign_keys = ON');
 
-// Initialize database schema
 export const initializeDatabase = () => {
   db.serialize(() => {
     db.run(`
@@ -36,5 +33,4 @@ export const initializeDatabase = () => {
   });
 };
 
-// Initialize on module load
 initializeDatabase();
