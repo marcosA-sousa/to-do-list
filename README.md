@@ -1,18 +1,18 @@
 # 📝 Lista de Tarefas
 
-Gerenciador de tarefas simples, rápido e responsivo.
+O projeto consiste em uma API de gerenciador de tarefas simples, rápido e responsivo.
 
 ---
 
 ## 🎯 Funcionalidades
 
-- ✅ Criar, editar e deletar tarefas
-- 📊 Filtrar tarefas por status (pendente ou concluída)
-- 🔄 Ordenar por data, título ou status
-- 📱 Totalmente responsivo (mobile, tablet e desktop)
-- 💾 Banco de dados local SQLite (sem dependências externas)
-- ⚡ Rápido e leve
-- 🔒 Validação de entrada no frontend e backend
+- ✅ Criar, editar e deletar tarefas.
+-    Filtrar tarefas por status (pendente ou concluída).
+- 🔄 Ordenar por data, título ou status.
+-    Totalmente responsivo (mobile, tablet e desktop).
+- 💾 Banco de dados local SQLite (sem dependências externas).
+-    Rápido e leve.
+- 🔒 Validação de entrada no frontend e backend.
 
 ---
 
@@ -55,6 +55,12 @@ to-do-list/
 │
 └── README.md                  # Este arquivo
 ```
+
+---
+
+## 📺 Vídeo de Demonstração
+
+![demo](./assets/demo.gif) 
 
 ---
 
