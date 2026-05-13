@@ -1,199 +1,230 @@
-# To-Do List
+# 📝 To-Do List Application
 
-Uma aplicação para gerenciar tarefas. Pronto para testar.
+A simple and efficient task management application built with vanilla JavaScript, Express.js, and SQLite.
 
-**Fazer em 5 minutos:** Vá para a seção [Como testar](#como-testar)
+![Status](https://img.shields.io/badge/Status-Active-brightgreen)
+![License](https://img.shields.io/badge/License-MIT-blue)
+![Version](https://img.shields.io/badge/Version-1.0.0-blue)
 
-## O que faz
+---
 
-- Criar, editar e deletar tarefas
-- Filtrar por status (pendente ou concluída)
-- Ordenar por data, título ou status
-- Funciona em mobile, tablet e desktop
-- Dados sincronizados em tempo real
+## 🎯 Features
 
-## Stack
+- ✅ Create, edit, and delete tasks
+- 📊 Filter tasks by status (pending or completed)
+- 🔄 Sort by date, title, or status
+- 📱 Fully responsive (mobile, tablet, desktop)
+- 💾 Local SQLite database (no external dependencies)
+- ⚡ Fast and lightweight
+- 🔒 Input validation on both frontend and backend
 
-- Frontend: HTML, CSS e JavaScript puro
-- Backend: Node.js com Express
-- Banco: PostgreSQL (Supabase)
+---
 
-## Como testar
+## 🛠️ Technology Stack
 
-### Setup (2 minutos)
+### Frontend
+- 🎨 **HTML5** - Semantic markup
+- 🌈 **CSS3** - Modern styling with flexbox
+- ⚙️ **JavaScript** - Vanilla JS (no frameworks)
 
-**Você precisa de:**
-- Node.js 18+
-- Uma conta gratuita no [Supabase](https://supabase.com/)
+### Backend
+- 🚀 **Node.js** - JavaScript runtime
+- 📦 **Express.js** - Web framework
+- 🗄️ **SQLite3** - Local database
 
-### 1. Ir pro backend
+---
 
+## 📂 Project Structure
+
+```
+to-do-list/
+├── 📁 backend/
+│   ├── 📁 src/
+│   │   ├── server.js          # Express server setup
+│   │   ├── routes.js          # API routes (CRUD operations)
+│   │   └── database.js        # SQLite connection & initialization
+│   ├── 📁 data/
+│   │   └── tasks.db           # SQLite database file
+│   ├── package.json           # Dependencies & scripts
+│   └── .env                   # Environment variables
+│
+├── 📁 frontend/
+│   ├── index.html             # Main HTML
+│   ├── style.css              # Styling
+│   └── script.js              # Client-side logic
+│
+└── README.md                  # This file
+```
+
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+- **Node.js** 18+ ([Download](https://nodejs.org/))
+- **npm** (comes with Node.js)
+
+### Installation & Setup
+
+#### 1️⃣ Clone or navigate to the project
+```bash
+cd to-do-list
+```
+
+#### 2️⃣ Install backend dependencies
 ```bash
 cd backend
 npm install
 ```
 
-### 2. Criar tabela no Supabase
-
-Acesse [supabase.com](https://supabase.com/), crie um projeto e vá no **SQL Editor**.
-
-Cole isso e execute:
-
-```sql
-CREATE TABLE tasks (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    title VARCHAR(255) NOT NULL,
-    description TEXT DEFAULT '',
-    status VARCHAR(20) DEFAULT 'pending',
-    created_at TIMESTAMP DEFAULT NOW(),
-    updated_at TIMESTAMP DEFAULT NOW()
-);
-
-CREATE INDEX idx_tasks_status ON tasks(status);
-CREATE INDEX idx_tasks_created_at ON tasks(created_at DESC);
-
-CREATE OR REPLACE FUNCTION update_updated_at_column()
-RETURNS TRIGGER AS $$
-BEGIN
-    NEW.updated_at = NOW();
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER trigger_update_updated_at
-BEFORE UPDATE ON tasks
-FOR EACH ROW
-EXECUTE FUNCTION update_updated_at_column();
-
-ALTER TABLE tasks ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "Allow public access" ON tasks
-FOR ALL USING (true) WITH CHECK (true);
-```
-
-### 3. Copiar credenciais
-
-No Supabase, vá em **Project Settings** → **API**. Copie:
-- **Project URL**
-- **anon public** (essa é a chave)
-
-### 4. Configurar .env
-
-Na pasta `backend`, crie um arquivo chamado `.env`:
-
-```
-SUPABASE_URL=cole-a-url-aqui
-SUPABASE_KEY=cole-a-chave-aqui
-PORT=3000
-NODE_ENV=development
-```
-
-### 5. Rodar o backend
-
+#### 3️⃣ Start the backend server
 ```bash
-npm run dev
+npm start
 ```
 
-Deve aparecer: `Server running on http://localhost:3000`
+You should see:
+```
+🚀 Server running on http://localhost:3000
+📝 Health check: http://localhost:3000/health
+🔗 API base: http://localhost:3000/api
+```
 
-### 6. Rodar o frontend
-
-Abra **outro terminal** e vá pra pasta frontend:
-
+#### 4️⃣ Open frontend in another terminal
 ```bash
+# From project root
 cd frontend
-python -m http.server 8000
+
+# Start a simple HTTP server
+npx http-server . -p 8000
 ```
 
-(Se não tiver Python, use: `npx http-server . -p 8000`)
-
-### 7. Abrir no navegador
-
+#### 5️⃣ Open in browser
 ```
 http://localhost:8000
 ```
 
-Pronto! Crie uma tarefa e vê funcionando 😊
-
-## Testando a API
-
-Se quiser testar sem a interface web:
-
-```bash
-# Criar
-curl -X POST http://localhost:3000/api/tasks \
-  -H "Content-Type: application/json" \
-  -d '{"title": "Minha tarefa"}'
-
-# Listar
-curl http://localhost:3000/api/tasks
-
-# Filtrar
-curl "http://localhost:3000/api/tasks?status=pending"
-
-# Atualizar
-curl -X PUT http://localhost:3000/api/tasks/ID_AQUI \
-  -H "Content-Type: application/json" \
-  -d '{"status": "completed"}'
-
-# Deletar
-curl -X DELETE http://localhost:3000/api/tasks/ID_AQUI
-```
-
-## Deu erro?
-
-**"SUPABASE_URL/KEY não definidas"**
-- Verifique se tá tudo certo no `.env`
-
-**"Table not found"**
-- Rodou o SQL no Supabase? Verifique se tá no banco correto
-
-**CORS blocked**
-- Backend precisa estar em `localhost:3000`
-- Frontend em `localhost:8000`
-
-**npm install não funciona**
-- Linux/Mac: tente `sudo npm install`
-- Ou reinstale Node.js
-
-**"Cannot GET /api/tasks"**
-- Backend tá rodando? Digite `npm run dev` de novo
-
-## Arquivos principais
-
-```
-backend/
-├── src/
-│   ├── server.js     - Express
-│   ├── routes.js     - API
-│   └── database.js   - Supabase
-└── package.json
-
-frontend/
-├── index.html        - UI
-├── style.css         - Estilos
-└── script.js         - Lógica
-```
-
-## Como funciona
-
-Frontend envia dados pro backend via HTTP. Backend valida e salva no Supabase. Pronto.
-
-Tudo é validado dos dois lados - você não consegue enviar dados ruins.
-
-## Código
-
-Sem frameworks desnecessários. Apenas o essencial.
-
-- Frontend: JavaScript vanilla
-- Backend: Express
-- Banco: PostgreSQL puro
-
-~300 linhas de backend, ~1100 de frontend.
-
-## Licença
-
-MIT
+✅ **Done!** Your To-Do List is ready to use.
 
 ---
 
-Desenvolvido como projeto de estágio na IN100tiva.
+## 📺 Demo Video
+
+[Add your project demo video here]
+
+```html
+<!-- Example: 
+<a href="https://your-video-link">
+  <img src="video-thumbnail.jpg" alt="To-Do List Demo" width="400">
+</a>
+-->
+```
+
+---
+
+## 🔌 API Endpoints
+
+### Get all tasks
+```bash
+GET /api/tasks
+```
+
+### Get task by ID
+```bash
+GET /api/tasks/:id
+```
+
+### Create task
+```bash
+POST /api/tasks
+Content-Type: application/json
+
+{
+  "title": "Buy groceries",
+  "description": "Milk, eggs, bread",
+  "status": "pending"
+}
+```
+
+### Update task
+```bash
+PUT /api/tasks/:id
+Content-Type: application/json
+
+{
+  "title": "Buy groceries",
+  "status": "completed"
+}
+```
+
+### Delete task
+```bash
+DELETE /api/tasks/:id
+```
+
+### Query Parameters
+- `status` - Filter by status: `pending` or `completed`
+- `sortBy` - Sort field: `created_at`, `title`, or `status` (default: `created_at`)
+- `order` - Sort order: `asc` or `desc` (default: `desc`)
+
+**Example:**
+```bash
+GET /api/tasks?status=pending&sortBy=title&order=asc
+```
+
+---
+
+## 🐛 Troubleshooting
+
+| Problem | Solution |
+|---------|----------|
+| **Port 3000 already in use** | Change `PORT` in `backend/.env` or kill process using that port |
+| **"npm: command not found"** | Install Node.js from https://nodejs.org/ |
+| **Frontend can't connect to backend** | Make sure backend is running on `localhost:3000` |
+| **Database errors** | Delete `backend/data/tasks.db` and restart (it will recreate) |
+| **CORS errors** | Verify backend is running and endpoints match in frontend/script.js |
+
+---
+
+## 📝 Project Details
+
+### Database Schema
+```sql
+CREATE TABLE tasks (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  title TEXT NOT NULL,
+  description TEXT DEFAULT '',
+  status TEXT NOT NULL CHECK(status IN ('pending', 'completed')),
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+### Validation Rules
+- **Title:** Required, max 255 characters
+- **Description:** Optional, max 1000 characters
+- **Status:** Either `pending` or `completed`
+
+---
+
+## 📄 License
+
+MIT License - Feel free to use this project for any purpose.
+
+---
+
+## 👨‍💻 Author
+
+**Marcos Aurélio Ribeiro de Sousa**
+
+Developed as an internship project at IN100tiva.
+
+---
+
+## 🤝 Contributing
+
+Feel free to fork, modify, and submit pull requests!
+
+---
+
+**Last Updated:** May 2026
+
