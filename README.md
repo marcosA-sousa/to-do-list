@@ -1,10 +1,9 @@
 # 📝 Lista de Tarefas
 
-Uma aplicação simples e eficiente para gerenciar tarefas, construída com JavaScript puro, Express.js e SQLite.
+Gerenciador de tarefas simples, rápido e responsivo.
 
 ![Status](https://img.shields.io/badge/Status-Ativo-brightgreen)
 ![Licença](https://img.shields.io/badge/Licença-MIT-blue)
-![Versão](https://img.shields.io/badge/Versão-1.0.0-blue)
 
 ---
 
