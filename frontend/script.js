@@ -1,10 +1,6 @@
-// API Configuration
 const API_BASE_URL = 'http://localhost:3000/api';
+let tasksMap = {};
 
-// Global State
-let tasksMap = {}; // Store tasks by ID for quick access
-
-// DOM Elements
 const taskForm = document.getElementById('taskForm');
 const taskTitle = document.getElementById('taskTitle');
 const taskDescription = document.getElementById('taskDescription');
@@ -24,7 +20,6 @@ const editTaskDescription = document.getElementById('editTaskDescription');
 const closeModal = document.querySelector('.close');
 const cancelEdit = document.getElementById('cancelEdit');
 
-// Event Listeners
 taskForm.addEventListener('submit', handleAddTask);
 refreshBtn.addEventListener('click', loadTasks);
 statusFilter.addEventListener('change', loadTasks);
@@ -39,20 +34,14 @@ window.addEventListener('click', (event) => {
     }
 });
 
-// Show Toast Notification
 function showToast(message, type = 'info') {
     toast.textContent = message;
     toast.className = `toast show ${type}`;
-    
-    setTimeout(() => {
-        toast.classList.remove('show');
-    }, 3000);
+    setTimeout(() => toast.classList.remove('show'), 3000);
 }
 
-// Handle Add Task
 async function handleAddTask(e) {
     e.preventDefault();
-
     const title = taskTitle.value.trim();
     const description = taskDescription.value.trim();
 
@@ -64,14 +53,8 @@ async function handleAddTask(e) {
     try {
         const response = await fetch(`${API_BASE_URL}/tasks`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                title,
-                description,
-                status: 'pending'
-            })
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ title, description, status: 'pending' })
         });
 
         if (!response.ok) {
@@ -80,46 +63,29 @@ async function handleAddTask(e) {
             return;
         }
 
-        const newTask = await response.json();
         showToast('✅ Tarefa criada com sucesso!', 'success');
         taskForm.reset();
         loadTasks();
     } catch (error) {
-        console.error('Erro:', error);
+        console.error(error);
         showToast('Erro ao conectar com o servidor', 'error');
     }
 }
 
-// Load Tasks
 async function loadTasks() {
     try {
-        const status = statusFilter.value;
-        const sortField = sortBy.value;
-        const orderType = order.value;
-
-        let url = `${API_BASE_URL}/tasks?sortBy=${sortField}&order=${orderType}`;
-        if (status) {
-            url += `&status=${status}`;
-        }
+        const url = `${API_BASE_URL}/tasks?sortBy=${sortBy.value}&order=${order.value}${statusFilter.value ? `&status=${statusFilter.value}` : ''}`;
 
         loadingIndicator.style.display = 'block';
         tasksList.innerHTML = '';
         emptyState.style.display = 'none';
 
         const response = await fetch(url);
-
-        if (!response.ok) {
-            throw new Error('Erro ao carregar tarefas');
-        }
+        if (!response.ok) throw new Error('Erro ao carregar tarefas');
 
         const tasks = await response.json();
-        
-        // Store tasks in map for quick access
         tasksMap = {};
-        tasks.forEach(task => {
-            tasksMap[task.id] = task;
-        });
-        
+        tasks.forEach(task => tasksMap[task.id] = task);
         loadingIndicator.style.display = 'none';
 
         if (tasks.length === 0) {
@@ -127,17 +93,14 @@ async function loadTasks() {
             return;
         }
 
-        tasks.forEach(task => {
-            tasksList.appendChild(createTaskElement(task));
-        });
+        tasks.forEach(task => tasksList.appendChild(createTaskElement(task)));
     } catch (error) {
-        console.error('Erro ao carregar tarefas:', error);
+        console.error(error);
         loadingIndicator.style.display = 'none';
         showToast('Erro ao carregar tarefas', 'error');
     }
 }
 
-// Create Task Element
 function createTaskElement(task) {
     const taskDiv = document.createElement('div');
     taskDiv.className = `task-item ${task.status === 'completed' ? 'completed' : ''}`;
@@ -179,14 +142,12 @@ function createTaskElement(task) {
         </div>
     `;
 
-    // Toggle completion status
     const checkbox = taskDiv.querySelector('.task-checkbox');
     checkbox.addEventListener('change', () => toggleTaskStatus(task.id, checkbox.checked));
 
     return taskDiv;
 }
 
-// Toggle Task Status
 async function toggleTaskStatus(taskId, isCompleted) {
     try {
         const newStatus = isCompleted ? 'completed' : 'pending';
@@ -199,29 +160,21 @@ async function toggleTaskStatus(taskId, isCompleted) {
 
         const response = await fetch(`${API_BASE_URL}/tasks/${taskId}`, {
             method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ 
-                title: task.title,
-                status: newStatus 
-            })
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ title: task.title, status: newStatus })
         });
 
-        if (!response.ok) {
-            throw new Error('Erro ao atualizar tarefa');
-        }
+        if (!response.ok) throw new Error('Erro ao atualizar tarefa');
 
         showToast(`✅ Tarefa marcada como ${newStatus === 'completed' ? 'concluída' : 'pendente'}`, 'success');
         loadTasks();
     } catch (error) {
-        console.error('Erro:', error);
+        console.error(error);
         showToast('Erro ao atualizar status da tarefa', 'error');
         loadTasks();
     }
 }
 
-// Open Edit Modal
 function openEditModal(taskId, title, description) {
     editTaskId.value = taskId;
     editTaskTitle.value = title;
@@ -229,10 +182,8 @@ function openEditModal(taskId, title, description) {
     editModal.style.display = 'block';
 }
 
-// Handle Edit Task
 async function handleEditTask(e) {
     e.preventDefault();
-
     const taskId = editTaskId.value;
     const title = editTaskTitle.value.trim();
     const description = editTaskDescription.value.trim();
@@ -245,13 +196,8 @@ async function handleEditTask(e) {
     try {
         const response = await fetch(`${API_BASE_URL}/tasks/${taskId}`, {
             method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                title,
-                description
-            })
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ title, description })
         });
 
         if (!response.ok) {
@@ -264,12 +210,11 @@ async function handleEditTask(e) {
         editModal.style.display = 'none';
         loadTasks();
     } catch (error) {
-        console.error('Erro:', error);
+        console.error(error);
         showToast('Erro ao atualizar tarefa', 'error');
     }
 }
 
-// Delete Task
 async function deleteTask(taskId) {
     if (!confirm('Tem certeza que deseja deletar esta tarefa?')) {
         return;
@@ -280,29 +225,19 @@ async function deleteTask(taskId) {
             method: 'DELETE'
         });
 
-        if (!response.ok) {
-            throw new Error('Erro ao deletar tarefa');
-        }
+        if (!response.ok) throw new Error('Erro ao deletar tarefa');
 
         showToast('✅ Tarefa deletada com sucesso!', 'success');
         loadTasks();
     } catch (error) {
-        console.error('Erro:', error);
+        console.error(error);
         showToast('Erro ao deletar tarefa', 'error');
     }
 }
 
-// Escape HTML to prevent XSS
 function escapeHtml(text) {
-    const map = {
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        "'": '&#039;'
-    };
+    const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
     return text.replace(/[&<>"']/g, m => map[m]);
 }
 
-// Load tasks on page load
 document.addEventListener('DOMContentLoaded', loadTasks);
