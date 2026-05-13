@@ -23,14 +23,18 @@ Uma aplicação simples e eficiente para gerenciar tarefas, construída com Java
 ## 🛠️ Stack Tecnológico
 
 ### Frontend
-- 🎨 **HTML5** - Marcação semântica
-- 🌈 **CSS3** - Estilização moderna com flexbox
-- ⚙️ **JavaScript** - JavaScript vanilla (sem frameworks)
+<div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin: 20px 0;">
+  <img src="https://img.shields.io/badge/HTML5-E34C26?style=for-the-badge&logo=html5&logoColor=white" />
+  <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white" />
+  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" />
+</div>
 
 ### Backend
-- 🚀 **Node.js** - Runtime JavaScript
-- 📦 **Express.js** - Framework web
-- 🗄️ **SQLite3** - Banco de dados local
+<div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin: 20px 0;">
+  <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white" />
+  <img src="https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white" />
+  <img src="https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white" />
+</div>
 
 ---
 
@@ -114,7 +118,7 @@ http://localhost:8000
   Seu navegador não suporta vídeo HTML5.
 </video>
 
-**[Clique para Download do Vídeo](./assets/demo.mp4)** | [YouTube](link-do-youtube-aqui)
+**[Clique para Download do Vídeo](./assets/demo.mp4)** 
 
 ---
 
