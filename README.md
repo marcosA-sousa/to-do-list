@@ -109,13 +109,23 @@ http://localhost:8000
 
 ## 📺 Demo Video
 
-[Add your project demo video here]
+Watch the project in action:
 
-```html
-<!-- Example: 
-<a href="https://your-video-link">
-  <img src="video-thumbnail.jpg" alt="To-Do List Demo" width="400">
-</a>
+[![To-Do List Demo](https://img.shields.io/badge/Click%20to%20watch-Demo%20Video-red?style=for-the-badge)](https://your-video-url-here)
+
+**[Insert your project demo video/GIF here]**
+
+```markdown
+<!-- Option 1: YouTube embed
+<iframe width="100%" height="500" src="https://www.youtube.com/embed/YOUR_VIDEO_ID" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+-->
+
+<!-- Option 2: Direct video link
+[🎬 Watch Full Demo](https://your-video-link)
+-->
+
+<!-- Option 3: GIF
+![To-Do List Demo](./demo.gif)
 -->
 ```
 
