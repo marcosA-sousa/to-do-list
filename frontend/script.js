@@ -1,7 +1,7 @@
 const API_BASE_URL = 'http://localhost:3000/api';
 let tasksMap = {};
 
-// DOM Elements
+// Elementos DOM
 const taskForm = document.getElementById('taskForm');
 const taskTitle = document.getElementById('taskTitle');
 const taskDescription = document.getElementById('taskDescription');
@@ -21,7 +21,7 @@ const editTaskDescription = document.getElementById('editTaskDescription');
 const closeModal = document.querySelector('.close');
 const cancelEdit = document.getElementById('cancelEdit');
 
-// Event Listeners Setup
+// Configuração de Ouvintes de Eventos
 taskForm.addEventListener('submit', handleAddTask);
 refreshBtn.addEventListener('click', loadTasks);
 statusFilter.addEventListener('change', loadTasks);
@@ -40,7 +40,7 @@ window.addEventListener('click', (event) => {
   }
 });
 
-// Utility Functions
+// Funções Utilitárias
 function showToast(message, type = 'info') {
   toast.textContent = message;
   toast.className = `toast show ${type}`;
@@ -62,7 +62,7 @@ function escapeHtml(text) {
   return text.replace(/[&<>"']/g, m => map[m]);
 }
 
-// Task Creation
+// Criação de Tarefas
 async function handleAddTask(e) {
   e.preventDefault();
   
@@ -102,7 +102,7 @@ async function handleAddTask(e) {
   }
 }
 
-// Task Loading
+// Carregamento de Tarefas
 async function loadTasks() {
   try {
     const url = `${API_BASE_URL}/tasks?sortBy=${sortBy.value}&order=${order.value}${
@@ -143,7 +143,7 @@ async function loadTasks() {
   }
 }
 
-// Task Element Creation
+// Criação de Elemento de Tarefa
 function createTaskElement(task) {
   const taskDiv = document.createElement('div');
   taskDiv.className = `task-item ${task.status === 'completed' ? 'completed' : ''}`;
@@ -211,7 +211,7 @@ function createTaskElement(task) {
   return taskDiv;
 }
 
-// Task Status Toggle
+// Alternância de Status da Tarefa
 async function toggleTaskStatus(taskId, isCompleted) {
   try {
     const newStatus = isCompleted ? 'completed' : 'pending';
@@ -250,7 +250,7 @@ async function toggleTaskStatus(taskId, isCompleted) {
   }
 }
 
-// Task Editing
+// Edição de Tarefas
 function openEditModal(taskId, title, description) {
   editTaskId.value = taskId;
   editTaskTitle.value = title;
@@ -297,7 +297,7 @@ async function handleEditTask(e) {
   }
 }
 
-// Task Deletion
+// Exclusão de Tarefas
 async function deleteTask(taskId) {
   if (!confirm('Tem certeza que deseja deletar esta tarefa?')) {
     return;
@@ -320,5 +320,5 @@ async function deleteTask(taskId) {
   }
 }
 
-// Initialize
+// Inicialização
 document.addEventListener('DOMContentLoaded', loadTasks);
