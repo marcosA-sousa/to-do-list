@@ -107,14 +107,6 @@ http://localhost:8000
 
 ---
 
-## 📺 Vídeo de Demonstração
-
-[![Asista a Demonstração](https://img.shields.io/badge/▶️%20Asista%20a%20Demonstração-Vídeo-FF0000?style=for-the-badge)](./assets/demo.mp4)
-
-Você também pode [baixar o vídeo diretamente](./assets/demo.mp4) 
-
----
-
 ## 🔌 Endpoints da API
 
 ### Obter todas as tarefas
