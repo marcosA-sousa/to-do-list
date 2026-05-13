@@ -1,6 +1,9 @@
 // API Configuration
 const API_BASE_URL = 'http://localhost:3000/api';
 
+// Global State
+let tasksMap = {}; // Store tasks by ID for quick access
+
 // DOM Elements
 const taskForm = document.getElementById('taskForm');
 const taskTitle = document.getElementById('taskTitle');
@@ -110,6 +113,13 @@ async function loadTasks() {
         }
 
         const tasks = await response.json();
+        
+        // Store tasks in map for quick access
+        tasksMap = {};
+        tasks.forEach(task => {
+            tasksMap[task.id] = task;
+        });
+        
         loadingIndicator.style.display = 'none';
 
         if (tasks.length === 0) {
@@ -180,12 +190,22 @@ function createTaskElement(task) {
 async function toggleTaskStatus(taskId, isCompleted) {
     try {
         const newStatus = isCompleted ? 'completed' : 'pending';
+        const task = tasksMap[taskId];
+        
+        if (!task) {
+            showToast('Erro: tarefa não encontrada', 'error');
+            return;
+        }
+
         const response = await fetch(`${API_BASE_URL}/tasks/${taskId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ status: newStatus })
+            body: JSON.stringify({ 
+                title: task.title,
+                status: newStatus 
+            })
         });
 
         if (!response.ok) {
