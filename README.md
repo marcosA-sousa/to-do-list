@@ -1,203 +1,203 @@
-# 📝 To-Do List Application
+# 📝 Lista de Tarefas
 
-A simple and efficient task management application built with vanilla JavaScript, Express.js, and SQLite.
+Uma aplicação simples e eficiente para gerenciar tarefas, construída com JavaScript puro, Express.js e SQLite.
 
-![Status](https://img.shields.io/badge/Status-Active-brightgreen)
-![License](https://img.shields.io/badge/License-MIT-blue)
-![Version](https://img.shields.io/badge/Version-1.0.0-blue)
-
----
-
-## 🎯 Features
-
-- ✅ Create, edit, and delete tasks
-- 📊 Filter tasks by status (pending or completed)
-- 🔄 Sort by date, title, or status
-- 📱 Fully responsive (mobile, tablet, desktop)
-- 💾 Local SQLite database (no external dependencies)
-- ⚡ Fast and lightweight
-- 🔒 Input validation on both frontend and backend
+![Status](https://img.shields.io/badge/Status-Ativo-brightgreen)
+![Licença](https://img.shields.io/badge/Licença-MIT-blue)
+![Versão](https://img.shields.io/badge/Versão-1.0.0-blue)
 
 ---
 
-## 🛠️ Technology Stack
+## 🎯 Funcionalidades
+
+- ✅ Criar, editar e deletar tarefas
+- 📊 Filtrar tarefas por status (pendente ou concluída)
+- 🔄 Ordenar por data, título ou status
+- 📱 Totalmente responsivo (mobile, tablet e desktop)
+- 💾 Banco de dados local SQLite (sem dependências externas)
+- ⚡ Rápido e leve
+- 🔒 Validação de entrada no frontend e backend
+
+---
+
+## 🛠️ Stack Tecnológico
 
 ### Frontend
-- 🎨 **HTML5** - Semantic markup
-- 🌈 **CSS3** - Modern styling with flexbox
-- ⚙️ **JavaScript** - Vanilla JS (no frameworks)
+- 🎨 **HTML5** - Marcação semântica
+- 🌈 **CSS3** - Estilização moderna com flexbox
+- ⚙️ **JavaScript** - JavaScript vanilla (sem frameworks)
 
 ### Backend
-- 🚀 **Node.js** - JavaScript runtime
-- 📦 **Express.js** - Web framework
-- 🗄️ **SQLite3** - Local database
+- 🚀 **Node.js** - Runtime JavaScript
+- 📦 **Express.js** - Framework web
+- 🗄️ **SQLite3** - Banco de dados local
 
 ---
 
-## 📂 Project Structure
+## 📂 Estrutura do Projeto
 
 ```
 to-do-list/
 ├── 📁 backend/
 │   ├── 📁 src/
-│   │   ├── server.js          # Express server setup
-│   │   ├── routes.js          # API routes (CRUD operations)
-│   │   └── database.js        # SQLite connection & initialization
+│   │   ├── server.js          # Configuração do Express
+│   │   ├── routes.js          # Rotas da API (CRUD)
+│   │   └── database.js        # Conexão e inicialização SQLite
 │   ├── 📁 data/
-│   │   └── tasks.db           # SQLite database file
-│   ├── package.json           # Dependencies & scripts
-│   └── .env                   # Environment variables
+│   │   └── tasks.db           # Arquivo do banco de dados SQLite
+│   ├── package.json           # Dependências e scripts
+│   └── .env                   # Variáveis de ambiente
 │
 ├── 📁 frontend/
-│   ├── index.html             # Main HTML
-│   ├── style.css              # Styling
-│   └── script.js              # Client-side logic
+│   ├── index.html             # HTML principal
+│   ├── style.css              # Estilos
+│   └── script.js              # Lógica do cliente
 │
-└── README.md                  # This file
+└── README.md                  # Este arquivo
 ```
 
 ---
 
-## 🚀 Quick Start
+## 🚀 Como Rodar
 
-### Prerequisites
+### Pré-requisitos
 - **Node.js** 18+ ([Download](https://nodejs.org/))
-- **npm** (comes with Node.js)
+- **npm** (vem com Node.js)
 
-### Installation & Setup
+### Instalação e Setup
 
-#### 1️⃣ Clone or navigate to the project
+#### 1️⃣ Navegue até o projeto
 ```bash
 cd to-do-list
 ```
 
-#### 2️⃣ Install backend dependencies
+#### 2️⃣ Instale as dependências do backend
 ```bash
 cd backend
 npm install
 ```
 
-#### 3️⃣ Start the backend server
+#### 3️⃣ Inicie o servidor backend
 ```bash
 npm start
 ```
 
-You should see:
+Você deve ver:
 ```
-🚀 Server running on http://localhost:3000
+🚀 Servidor rodando em http://localhost:3000
 📝 Health check: http://localhost:3000/health
 🔗 API base: http://localhost:3000/api
 ```
 
-#### 4️⃣ Open frontend in another terminal
+#### 4️⃣ Abra o frontend em outro terminal
 ```bash
-# From project root
+# Da pasta raiz do projeto
 cd frontend
 
-# Start a simple HTTP server
+# Inicie um servidor HTTP simples
 npx http-server . -p 8000
 ```
 
-#### 5️⃣ Open in browser
+#### 5️⃣ Abra no navegador
 ```
 http://localhost:8000
 ```
 
-✅ **Done!** Your To-Do List is ready to use.
+✅ **Pronto!** Sua Lista de Tarefas está funcionando.
 
 ---
 
-## 📺 Demo Video
+## 📺 Vídeo de Demonstração
 
-Watch the project in action:
+Assista o projeto em ação:
 
-[![To-Do List Demo](https://img.shields.io/badge/Click%20to%20watch-Demo%20Video-red?style=for-the-badge)](https://your-video-url-here)
+[![Demo da Lista de Tarefas](https://img.shields.io/badge/Clique%20para%20assistir-Vídeo%20Demo-red?style=for-the-badge)](https://seu-link-de-video-aqui)
 
-**[Insert your project demo video/GIF here]**
+**[Insira seu vídeo de demonstração aqui]**
 
 ```markdown
-<!-- Option 1: YouTube embed
-<iframe width="100%" height="500" src="https://www.youtube.com/embed/YOUR_VIDEO_ID" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<!-- Opção 1: Embed do YouTube
+<iframe width="100%" height="500" src="https://www.youtube.com/embed/SEU_VIDEO_ID" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 -->
 
-<!-- Option 2: Direct video link
-[🎬 Watch Full Demo](https://your-video-link)
+<!-- Opção 2: Link direto
+[🎬 Assista a Demonstração Completa](https://seu-link-de-video)
 -->
 
-<!-- Option 3: GIF
-![To-Do List Demo](./demo.gif)
+<!-- Opção 3: GIF
+![Demo da Lista de Tarefas](./demo.gif)
 -->
 ```
 
 ---
 
-## 🔌 API Endpoints
+## 🔌 Endpoints da API
 
-### Get all tasks
+### Obter todas as tarefas
 ```bash
 GET /api/tasks
 ```
 
-### Get task by ID
+### Obter tarefa por ID
 ```bash
 GET /api/tasks/:id
 ```
 
-### Create task
+### Criar tarefa
 ```bash
 POST /api/tasks
 Content-Type: application/json
 
 {
-  "title": "Buy groceries",
-  "description": "Milk, eggs, bread",
+  "title": "Comprar mantimentos",
+  "description": "Leite, ovos, pão",
   "status": "pending"
 }
 ```
 
-### Update task
+### Atualizar tarefa
 ```bash
 PUT /api/tasks/:id
 Content-Type: application/json
 
 {
-  "title": "Buy groceries",
+  "title": "Comprar mantimentos",
   "status": "completed"
 }
 ```
 
-### Delete task
+### Deletar tarefa
 ```bash
 DELETE /api/tasks/:id
 ```
 
-### Query Parameters
-- `status` - Filter by status: `pending` or `completed`
-- `sortBy` - Sort field: `created_at`, `title`, or `status` (default: `created_at`)
-- `order` - Sort order: `asc` or `desc` (default: `desc`)
+### Parâmetros de Query
+- `status` - Filtrar por status: `pending` ou `completed`
+- `sortBy` - Campo para ordenar: `created_at`, `title` ou `status` (padrão: `created_at`)
+- `order` - Ordem: `asc` ou `desc` (padrão: `desc`)
 
-**Example:**
+**Exemplo:**
 ```bash
 GET /api/tasks?status=pending&sortBy=title&order=asc
 ```
 
 ---
 
-## 🐛 Troubleshooting
+## 🐛 Solução de Problemas
 
-| Problem | Solution |
-|---------|----------|
-| **Port 3000 already in use** | Change `PORT` in `backend/.env` or kill process using that port |
-| **"npm: command not found"** | Install Node.js from https://nodejs.org/ |
-| **Frontend can't connect to backend** | Make sure backend is running on `localhost:3000` |
-| **Database errors** | Delete `backend/data/tasks.db` and restart (it will recreate) |
-| **CORS errors** | Verify backend is running and endpoints match in frontend/script.js |
+| Problema | Solução |
+|----------|---------|
+| **Porta 3000 já em uso** | Mude `PORT` em `backend/.env` ou encerre o processo usando a porta |
+| **"npm: comando não encontrado"** | Instale Node.js de https://nodejs.org/ |
+| **Frontend não conecta ao backend** | Verifique se o backend está rodando em `localhost:3000` |
+| **Erros de banco de dados** | Delete `backend/data/tasks.db` e reinicie (será recriado) |
+| **Erros de CORS** | Verifique se o backend está rodando e se os endpoints correspondem |
 
 ---
 
-## 📝 Project Details
+## 📝 Detalhes do Projeto
 
-### Database Schema
+### Schema do Banco de Dados
 ```sql
 CREATE TABLE tasks (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -209,32 +209,26 @@ CREATE TABLE tasks (
 );
 ```
 
-### Validation Rules
-- **Title:** Required, max 255 characters
-- **Description:** Optional, max 1000 characters
-- **Status:** Either `pending` or `completed`
+### Regras de Validação
+- **Título:** Obrigatório, máximo 255 caracteres
+- **Descrição:** Opcional, máximo 1000 caracteres
+- **Status:** Apenas `pending` ou `completed`
 
 ---
 
-## 📄 License
+## 📄 Licença
 
-MIT License - Feel free to use this project for any purpose.
+MIT License - Sinta-se livre para usar este projeto para qualquer finalidade.
 
 ---
 
-## 👨‍💻 Author
+## 👨‍💻 Autor
 
 **Marcos Aurélio Ribeiro de Sousa**
 
-Developed as an internship project at IN100tiva.
+Desenvolvido como projeto de estágio na IN100tiva.
 
 ---
 
-## 🤝 Contributing
-
-Feel free to fork, modify, and submit pull requests!
-
----
-
-**Last Updated:** May 2026
+**Última atualização:** Maio de 2026
 
