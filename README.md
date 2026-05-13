@@ -109,25 +109,12 @@ http://localhost:8000
 
 ## 📺 Vídeo de Demonstração
 
-Assista o projeto em ação:
+<video width="100%" height="600" controls style="border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+  <source src="./assets/demo.mp4" type="video/mp4">
+  Seu navegador não suporta vídeo HTML5.
+</video>
 
-[![Demo da Lista de Tarefas](https://img.shields.io/badge/Clique%20para%20assistir-Vídeo%20Demo-red?style=for-the-badge)](https://seu-link-de-video-aqui)
-
-**[Insira seu vídeo de demonstração aqui]**
-
-```markdown
-<!-- Opção 1: Embed do YouTube
-<iframe width="100%" height="500" src="https://www.youtube.com/embed/SEU_VIDEO_ID" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
--->
-
-<!-- Opção 2: Link direto
-[🎬 Assista a Demonstração Completa](https://seu-link-de-video)
--->
-
-<!-- Opção 3: GIF
-![Demo da Lista de Tarefas](./demo.gif)
--->
-```
+**[Clique para Download do Vídeo](./assets/demo.mp4)** | [YouTube](link-do-youtube-aqui)
 
 ---
 
