@@ -1,5 +1,5 @@
 import express from 'express';
-import { supabase } from './database.js';
+import { db } from './database.js';
 
 const router = express.Router();
 
@@ -30,13 +30,8 @@ const validateTask = (data) => {
   return errors;
 };
 
-/**
- * POST /tasks
- * Criar uma nova tarefa
- * Body: { title: string, description?: string, status?: 'pending' | 'completed' }
- * Response: { id, title, description, status, created_at }
- */
-router.post('/tasks', async (req, res) => {
+
+router.post('/tasks', (req, res) => {
   try {
     const { title, description = '', status = 'pending' } = req.body;
     
@@ -49,63 +44,51 @@ router.post('/tasks', async (req, res) => {
       });
     }
     
-    const { data, error } = await supabase
-      .from('tasks')
-      .insert([{
-        title: title.trim(),
-        description: description.trim(),
-        status,
-        created_at: new Date().toISOString()
-      }])
-      .select();
+    const stmt = db.prepare(`
+      INSERT INTO tasks (title, description, status)
+      VALUES (?, ?, ?)
+    `);
     
-    if (error) {
-      console.error('Erro ao criar tarefa:', error);
-      return res.status(500).json({ error: 'Erro ao criar tarefa' });
-    }
+    const result = stmt.run(title.trim(), description.trim(), status);
     
-    res.status(201).json(data[0]);
+    // Retrieve the newly created task
+    const task = db.prepare('SELECT * FROM tasks WHERE id = ?').get(result.lastInsertRowid);
+    
+    res.status(201).json(task);
   } catch (error) {
     console.error('Erro no POST /tasks:', error);
-    res.status(500).json({ error: 'Erro interno do servidor' });
+    res.status(500).json({ error: 'Erro ao criar tarefa' });
   }
 });
 
-/**
- * GET /tasks
- * Listar todas as tarefas com filtros opcionais
- * Query params: status=pending|completed, sortBy=created_at|title, order=asc|desc
- * Response: Array de tarefas
- */
-router.get('/tasks', async (req, res) => {
+
+router.get('/tasks', (req, res) => {
   try {
     const { status, sortBy = 'created_at', order = 'desc' } = req.query;
     
-    let query = supabase.from('tasks').select('*');
+    let query = 'SELECT * FROM tasks WHERE 1=1';
+    const params = [];
     
     // Filtro de status
     if (status && ['pending', 'completed'].includes(status)) {
-      query = query.eq('status', status);
+      query += ' AND status = ?';
+      params.push(status);
     }
     
     // Ordenação
     const validSortFields = ['created_at', 'title', 'status'];
     const sortField = validSortFields.includes(sortBy) ? sortBy : 'created_at';
-    const isAsc = order === 'asc';
+    const sortOrder = order === 'asc' ? 'ASC' : 'DESC';
     
-    query = query.order(sortField, { ascending: isAsc });
+    query += ` ORDER BY ${sortField} ${sortOrder}`;
     
-    const { data, error } = await query;
+    const stmt = db.prepare(query);
+    const tasks = stmt.all(...params);
     
-    if (error) {
-      console.error('Erro ao listar tarefas:', error);
-      return res.status(500).json({ error: 'Erro ao listar tarefas' });
-    }
-    
-    res.json(data);
+    res.json(tasks);
   } catch (error) {
     console.error('Erro no GET /tasks:', error);
-    res.status(500).json({ error: 'Erro interno do servidor' });
+    res.status(500).json({ error: 'Erro ao listar tarefas' });
   }
 });
 
@@ -114,34 +97,26 @@ router.get('/tasks', async (req, res) => {
  * Buscar uma tarefa específica por ID
  * Response: Tarefa encontrada ou erro 404
  */
-router.get('/tasks/:id', async (req, res) => {
+router.get('/tasks/:id', (req, res) => {
   try {
     const { id } = req.params;
     
-    const { data, error } = await supabase
-      .from('tasks')
-      .select('*')
-      .eq('id', id)
-      .single();
+    const stmt = db.prepare('SELECT * FROM tasks WHERE id = ?');
+    const task = stmt.get(id);
     
-    if (error || !data) {
+    if (!task) {
       return res.status(404).json({ error: 'Tarefa não encontrada' });
     }
     
-    res.json(data);
+    res.json(task);
   } catch (error) {
     console.error('Erro no GET /tasks/:id:', error);
     res.status(500).json({ error: 'Erro interno do servidor' });
   }
 });
 
-/**
- * PUT /tasks/:id
- * Atualizar uma tarefa
- * Body: { title?: string, description?: string, status?: 'pending' | 'completed' }
- * Response: Tarefa atualizada
- */
-router.put('/tasks/:id', async (req, res) => {
+
+router.put('/tasks/:id', (req, res) => {
   try {
     const { id } = req.params;
     const updates = req.body;
@@ -156,52 +131,57 @@ router.put('/tasks/:id', async (req, res) => {
     }
     
     // Preparar dados para atualização
-    const dataToUpdate = {};
-    if (updates.title !== undefined) dataToUpdate.title = updates.title.trim();
-    if (updates.description !== undefined) dataToUpdate.description = updates.description.trim();
-    if (updates.status !== undefined) dataToUpdate.status = updates.status;
-    dataToUpdate.updated_at = new Date().toISOString();
+    let query = 'UPDATE tasks SET ';
+    const params = [];
+    const updateFields = [];
     
-    const { data, error } = await supabase
-      .from('tasks')
-      .update(dataToUpdate)
-      .eq('id', id)
-      .select();
+    if (updates.title !== undefined) {
+      updateFields.push('title = ?');
+      params.push(updates.title.trim());
+    }
+    if (updates.description !== undefined) {
+      updateFields.push('description = ?');
+      params.push(updates.description.trim());
+    }
+    if (updates.status !== undefined) {
+      updateFields.push('status = ?');
+      params.push(updates.status);
+    }
     
-    if (error || !data || data.length === 0) {
+    updateFields.push('updated_at = CURRENT_TIMESTAMP');
+    query += updateFields.join(', ') + ' WHERE id = ?';
+    params.push(id);
+    
+    const stmt = db.prepare(query);
+    const result = stmt.run(...params);
+    
+    if (result.changes === 0) {
       return res.status(404).json({ error: 'Tarefa não encontrada' });
     }
     
-    res.json(data[0]);
+    const task = db.prepare('SELECT * FROM tasks WHERE id = ?').get(id);
+    res.json(task);
   } catch (error) {
     console.error('Erro no PUT /tasks/:id:', error);
-    res.status(500).json({ error: 'Erro interno do servidor' });
+    res.status(500).json({ error: 'Erro ao atualizar tarefa' });
   }
 });
 
-/**
- * DELETE /tasks/:id
- * Deletar uma tarefa
- * Response: Confirmação de deleção
- */
-router.delete('/tasks/:id', async (req, res) => {
+router.delete('/tasks/:id', (req, res) => {
   try {
     const { id } = req.params;
     
-    const { error, data } = await supabase
-      .from('tasks')
-      .delete()
-      .eq('id', id)
-      .select();
+    const stmt = db.prepare('DELETE FROM tasks WHERE id = ?');
+    const result = stmt.run(id);
     
-    if (error || !data || data.length === 0) {
+    if (result.changes === 0) {
       return res.status(404).json({ error: 'Tarefa não encontrada' });
     }
     
     res.json({ message: 'Tarefa deletada com sucesso', id });
   } catch (error) {
     console.error('Erro no DELETE /tasks/:id:', error);
-    res.status(500).json({ error: 'Erro interno do servidor' });
+    res.status(500).json({ error: 'Erro ao deletar tarefa' });
   }
 });
 
