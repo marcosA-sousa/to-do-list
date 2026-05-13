@@ -47,14 +47,31 @@ router.post('/tasks', (req, res) => {
     const stmt = db.prepare(`
       INSERT INTO tasks (title, description, status)
       VALUES (?, ?, ?)
-    `);
+    `, (err) => {
+      if (err) {
+        console.error('Erro ao preparar statement:', err);
+        return res.status(500).json({ error: 'Erro ao criar tarefa' });
+      }
+    });
     
-    const result = stmt.run(title.trim(), description.trim(), status);
-    
-    // Retrieve the newly created task
-    const task = db.prepare('SELECT * FROM tasks WHERE id = ?').get(result.lastInsertRowid);
-    
-    res.status(201).json(task);
+    db.run('INSERT INTO tasks (title, description, status) VALUES (?, ?, ?)',
+      [title.trim(), description.trim(), status],
+      function(err) {
+        if (err) {
+          console.error('Erro ao criar tarefa:', err);
+          return res.status(500).json({ error: 'Erro ao criar tarefa' });
+        }
+        
+        // Retrieve the newly created task
+        db.get('SELECT * FROM tasks WHERE id = ?', [this.lastID], (err, task) => {
+          if (err) {
+            console.error('Erro ao buscar tarefa criada:', err);
+            return res.status(500).json({ error: 'Erro ao criar tarefa' });
+          }
+          res.status(201).json(task);
+        });
+      }
+    );
   } catch (error) {
     console.error('Erro no POST /tasks:', error);
     res.status(500).json({ error: 'Erro ao criar tarefa' });
@@ -82,10 +99,13 @@ router.get('/tasks', (req, res) => {
     
     query += ` ORDER BY ${sortField} ${sortOrder}`;
     
-    const stmt = db.prepare(query);
-    const tasks = stmt.all(...params);
-    
-    res.json(tasks);
+    db.all(query, params, (err, tasks) => {
+      if (err) {
+        console.error('Erro ao listar tarefas:', err);
+        return res.status(500).json({ error: 'Erro ao listar tarefas' });
+      }
+      res.json(tasks || []);
+    });
   } catch (error) {
     console.error('Erro no GET /tasks:', error);
     res.status(500).json({ error: 'Erro ao listar tarefas' });
@@ -101,14 +121,18 @@ router.get('/tasks/:id', (req, res) => {
   try {
     const { id } = req.params;
     
-    const stmt = db.prepare('SELECT * FROM tasks WHERE id = ?');
-    const task = stmt.get(id);
-    
-    if (!task) {
-      return res.status(404).json({ error: 'Tarefa não encontrada' });
-    }
-    
-    res.json(task);
+    db.get('SELECT * FROM tasks WHERE id = ?', [id], (err, task) => {
+      if (err) {
+        console.error('Erro no GET /tasks/:id:', err);
+        return res.status(500).json({ error: 'Erro interno do servidor' });
+      }
+      
+      if (!task) {
+        return res.status(404).json({ error: 'Tarefa não encontrada' });
+      }
+      
+      res.json(task);
+    });
   } catch (error) {
     console.error('Erro no GET /tasks/:id:', error);
     res.status(500).json({ error: 'Erro interno do servidor' });
@@ -152,15 +176,24 @@ router.put('/tasks/:id', (req, res) => {
     query += updateFields.join(', ') + ' WHERE id = ?';
     params.push(id);
     
-    const stmt = db.prepare(query);
-    const result = stmt.run(...params);
-    
-    if (result.changes === 0) {
-      return res.status(404).json({ error: 'Tarefa não encontrada' });
-    }
-    
-    const task = db.prepare('SELECT * FROM tasks WHERE id = ?').get(id);
-    res.json(task);
+    db.run(query, params, function(err) {
+      if (err) {
+        console.error('Erro ao atualizar tarefa:', err);
+        return res.status(500).json({ error: 'Erro ao atualizar tarefa' });
+      }
+      
+      if (this.changes === 0) {
+        return res.status(404).json({ error: 'Tarefa não encontrada' });
+      }
+      
+      db.get('SELECT * FROM tasks WHERE id = ?', [id], (err, task) => {
+        if (err) {
+          console.error('Erro ao buscar tarefa atualizada:', err);
+          return res.status(500).json({ error: 'Erro ao atualizar tarefa' });
+        }
+        res.json(task);
+      });
+    });
   } catch (error) {
     console.error('Erro no PUT /tasks/:id:', error);
     res.status(500).json({ error: 'Erro ao atualizar tarefa' });
@@ -171,14 +204,18 @@ router.delete('/tasks/:id', (req, res) => {
   try {
     const { id } = req.params;
     
-    const stmt = db.prepare('DELETE FROM tasks WHERE id = ?');
-    const result = stmt.run(id);
-    
-    if (result.changes === 0) {
-      return res.status(404).json({ error: 'Tarefa não encontrada' });
-    }
-    
-    res.json({ message: 'Tarefa deletada com sucesso', id });
+    db.run('DELETE FROM tasks WHERE id = ?', [id], function(err) {
+      if (err) {
+        console.error('Erro ao deletar tarefa:', err);
+        return res.status(500).json({ error: 'Erro ao deletar tarefa' });
+      }
+      
+      if (this.changes === 0) {
+        return res.status(404).json({ error: 'Tarefa não encontrada' });
+      }
+      
+      res.json({ message: 'Tarefa deletada com sucesso', id });
+    });
   } catch (error) {
     console.error('Erro no DELETE /tasks/:id:', error);
     res.status(500).json({ error: 'Erro ao deletar tarefa' });
