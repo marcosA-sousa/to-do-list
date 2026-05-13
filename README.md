@@ -2,9 +2,6 @@
 
 Gerenciador de tarefas simples, rápido e responsivo.
 
-![Status](https://img.shields.io/badge/Status-Ativo-brightgreen)
-![Licença](https://img.shields.io/badge/Licença-MIT-blue)
-
 ---
 
 ## 🎯 Funcionalidades
@@ -112,7 +109,7 @@ http://localhost:8000
 
 ## 📺 Vídeo de Demonstração
 
-<video width="100%" height="600" controls style="border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+<video width="100%" height="300" controls style="border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
   <source src="./assets/demo.mp4" type="video/mp4">
   Seu navegador não suporta vídeo HTML5.
 </video>
@@ -206,11 +203,6 @@ CREATE TABLE tasks (
 
 ---
 
-## 📄 Licença
-
-MIT License - Sinta-se livre para usar este projeto para qualquer finalidade.
-
----
 
 ## 👨‍💻 Autor
 
